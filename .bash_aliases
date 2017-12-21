@@ -1,3 +1,6 @@
+alias ptt='ssh bbsu@ptt.cc'
+alias ptt2='ssh bbsu@ptt2.cc'
+
 alias ssh-csie='ssh-csie.sh'
 alias sftp-csie='sftp-csie.sh'
 
