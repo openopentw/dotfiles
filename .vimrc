@@ -48,18 +48,25 @@ set directory=~/tmp,/var/tmp/vi.recover,/tmp,.
 set backup		" keep a backup file
 set showmatch " show another brace when input a brace
 "}}}
+" Set vimfile folder path{{{
+if has('win32') || has('win64')
+  set runtimepath=$HOME.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles,$HOME/.vim
+endif
+"}}}
 "}}}
 
 " View"{{{
 " General Settings"{{{
 set laststatus=2
-set nu	" show line number
-" set foldcolumn=1
-set nowrap	" don't wrap
-set cursorline	" show the same line
+" show line number
+set nu
+" don't wrap
+set nowrap
+" show the same line
+set cursorline
 set wildmenu
 
-set shiftwidth=4	"TODO: check if 8 is better than 4
+" The size of an 'indent'.
 set tabstop=4
 set nohlsearch
 set incsearch
@@ -87,13 +94,13 @@ let g:lucius_use_bold = 1
 " highlight CursorLine ctermbg=189
 "}}}
 " Length of Tab{{{
-set shiftwidth=4	"TODO: check if 8 is better than 4
+set shiftwidth=4
 set tabstop=4
 
 autocmd Filetype html setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype css setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype ruby setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
+" autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
 "}}}
 " TabLine"{{{
 highlight TabLineSel term=bold,underline cterm=bold,underline ctermfg=7 ctermbg=0
@@ -191,21 +198,27 @@ au CursorHold,BufWinEnter ?* call HasFolds()
 nmap <F2> <ESC>:tabe 
 if has('win32') || has ('win64')	" if in windows
 	let g:netrw_cygwin = 0
-	let g:netrw_ssh_cmd  = '"C:\Program Files\PuTTY\plink.exe" -batch -T -ssh'
-	let g:netrw_scp_cmd  = '"C:\Program Files\PuTTY\pscp.exe"  -batch -q -scp'
-	let g:netrw_sftp_cmd = '"C:\Program Files\PuTTY\pscp.exe"  -batch -q -sftp'
+	" let g:netrw_ssh_cmd  = '"C:\Program Files\PuTTY\plink.exe" -batch -T -ssh'
+	" let g:netrw_scp_cmd  = '"C:\Program Files\PuTTY\pscp.exe"  -batch -q -scp'
+	" let g:netrw_sftp_cmd = '"C:\Program Files\PuTTY\pscp.exe"  -batch -q -sftp'
+	let g:netrw_ssh_cmd  = 'plink -batch -T -ssh'
+	let g:netrw_scp_cmd  = 'pscp -batch -q -scp'
+	let g:netrw_sftp_cmd = 'pscp -batch -q -sftp'
 endif
 " nmap <F3> <ESC>:tabe scp://b04902053@linux9.csie.ntu.edu.tw:22/
 " nmap <F3> <ESC>:OpenSession 
 nmap <F4> <ESC>:set syntax=
 " nmap <silent> <F5> :NERDTree<CR>	"NOTE: this is defined in /Plugin/Tool
 nmap <F6> <ESC>:vs 
+nmap <F7> <ESC>:!xelatex.exe %:p<CR><CR>
 " map <F7> :set hls!<BAR>set hls?<CR>
 	" to toggle highlight or not on searched words
 if has('win32') || has ('win64')	" if in windows
-	nmap <silent> <F8> <ESC>:!start explorer.exe %:p:h<CR>
-	nmap <silent> <F9> <ESC>:!start powershell.exe<CR>
-	nmap <silent> <F10> <ESC>:!start bash.exe<CR>
+	nmap <silent> <F8> <ESC>:!start explorer.exe %:p:h<CR><CR>
+	nmap <silent> <F9> <ESC>:!start powershell.exe<CR><CR>
+	nmap <silent> <F10> <ESC>:!start git-bash.exe --cd="%:p:h"<CR><CR>
+	" nmap <silent> <F10> <ESC>:!start bash.exe<CR>
+	nmap <silent> <F12> <ESC>:!start /B electron-forge start<CR>
 endif
 "}}}
 " about TABs"{{{
@@ -273,6 +286,7 @@ com! FormatXML  %!xmllint-1.0.exe "%" --format
 call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 " View"{{{
+" vim-airline{{{
 Plug 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
@@ -280,50 +294,55 @@ Plug 'vim-airline/vim-airline-themes'
 " let g:airline_theme='sol'
 " let g:airline_theme='silver'
 let g:airline_theme='lucius'
-" let g:airline_powerline_fonts = 1
-
-" Plug 'altercation/vim-colors-solarized'
-
-" TODO: check if it is useful
+let g:airline_powerline_fonts = 1
+"}}}
+" TODO: check if it is useful"{{{
 " Plug 'captbaritone/better-indent-support-for-php-with-html'
-
+"}}}
+" goyo{{{
 Plug 'junegunn/goyo.vim'
 " Plug 'junegunn/limelight.vim'
 " Plug 'junegunn/seoul256.vim'
-
-" tmux statusline generator with airline theme
+"}}}
+" tmux statusline generator with airline theme"{{{
 Plug 'edkolev/tmuxline.vim'
 " for tmuxline + vim-airline integration
 let g:airline#extensions#tmuxline#enabled = 1
 " start tmuxline even without vim running
 let airline#extensions#tmuxline#snapshot_file = "~/.tmux-status.conf"
 "}}}
+"}}}
 " Tools "{{{
+" automatically adjusts 'shiftwidth' and 'expandtab' heuristically based on the current file{{{
+Plug 'tpope/vim-sleuth'
+"}}}
+" file tree{{{
 Plug 'scrooloose/nerdtree'
 nnoremap <silent> <F5> :NERDTree<CR>
-
+"}}}
+" Add comments by `gcc`{{{
 Plug 'tpope/vim-commentary'
-
+"}}}
+"" boshiamy{{{
 " Plug 'pi314/boshiamy.vim'
-
-" add quotes outside a word, e.g.:  Hello world!  ->  <q>Hello world!</q>
-" Plug 'tpope/vim-surround'
-"
+""}}}
+" vim-easy-align{{{
+" quick start guide: https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-" :rename[!] {newname}
+"}}}
+" :rename[!] {newname}"{{{
 Plug 'danro/rename.vim'
-
-" Session
+"}}}
+" Session"{{{
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 let g:session_autosave='no'
-
-" JavaScript Beautifyer
+"}}}
+" JavaScript Beautifyer"{{{
 " Plugin 'pangloss/vim-javascript'
 " Plugin 'maksimr/vim-jsbeautify'
 " " autocmd FileType javascript	noremap <buffer> <c-f> :call JsBeautify()<cr>
@@ -331,19 +350,46 @@ let g:session_autosave='no'
 " " autocmd FileType jsx		noremap <buffer> <c-f> :call JsxBeautify()<cr>
 " " autocmd FileType html		noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 " " autocmd FileType css		noremap <buffer> <c-f> :call CSSBeautify()<cr>
-
-" git
+"}}}
+" git"{{{
 Plug 'airblade/vim-gitgutter'
-
-" HTML
+"}}}
+" HTML"{{{
+" Usage: https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
+" e.g.: type `div#login` then type `<c-y>,`
 Plug 'mattn/emmet-vim'
 
-" JSON
+" add quotes outside a word, e.g.:  Hello world!  ->  <q>Hello world!</q>
+" Plug 'tpope/vim-surround'
+"}}}
+" JSON"{{{
 Plug 'elzr/vim-json'
-
-" YCM
+"}}}
+" YCM"{{{
+" if has('win32') || has ('win64')	" if in windows gvim
 " Plug 'Valloric/YouCompleteMe'
 " let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+" endif
+"}}}
+" Latex"{{{
+Plug 'lervag/vimtex'
+let g:tex_flavor='xelatex'
+" let g:Tex_CompileRule_pdf='xelatex --interaction=nonstopmode $*'
+let g:vimtex_view_general_viewer = 'C:\Program Files\Mozilla Firefox\Firefox.exe'
+"}}}
+" enable YouCompleteMe support"{{{
+"if !exists('g:ycm_semantic_triggers')
+"  let g:ycm_semantic_triggers = {}
+"endif
+"let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+"}}}
+"}}}
+" syntax highlighting"{{{
+" Stylus (.styl)"{{{
+Plug 'wavded/vim-stylus'
+"}}}
+" EJS (.ejs)"{{{
+Plug 'nikvdp/ejs-syntax'
 "}}}
 " markdown"{{{
 " Plugin 'isnowfy/python-vim-instant-markdown'
@@ -351,6 +397,7 @@ Plug 'elzr/vim-json'
 " Plugin 'suan/vim-instant-markdown'
 " Plugin 'godlygeek/tabular'
 " Plugin 'plasticboy/vim-markdown'
+"}}}
 "}}}
 " Initialize plugin system
 call plug#end()
