@@ -26,18 +26,18 @@ This is my Vim-setting files
   :PlugInstall
   ```
 
-- (Optional) Install `YouCompleteMe`.
+- (Optional) Install `YouCompleteMe` :
 
-  Uncomment following in `.vimrc`:
+  - Uncomment following in `.vimrc`:
 
-  ```vim
-  " Plug 'Valloric/YouCompleteMe'
-  " let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-  ```
+    ```vim
+    " Plug 'Valloric/YouCompleteMe'
+    " let g:ycm_global_ycm_extra_conf =     '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+    ```
 
-  Follow the descriptions inside [Valloric / YouCompleteMe](https://github.com/Valloric/YouCompleteMe) to install the plug-in `YouCompleteMe`.
 
-  Note that **YouCompleteMe does not work with Anaconda Python with default setting**. See more details here: https://github.com/Valloric/YouCompleteMe/issues/1241 .
+  - Follow the descriptions inside [Valloric / YouCompleteMe](https://github.com/Valloric/YouCompleteMe) to install the plug-in `YouCompleteMe`.
+  - Note that **YouCompleteMe does not work with Anaconda Python with default setting**. See more details here: https://github.com/Valloric/YouCompleteMe/issues/1241 .
 
 - You are done now !
 
