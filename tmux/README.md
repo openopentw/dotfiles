@@ -28,6 +28,8 @@ This is my configuration files for tmux.
     - When in copy-mode, press `y` to copy the words selected.
     - When outside of copy-mode, press `<prefix> ]` to paste words.
 
+(Usually, the default `<prefix>` key is `<Ctrl> + B`)
+
 ## Installation
 
 - Install [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm).
