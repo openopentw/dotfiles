@@ -22,15 +22,15 @@ if filereadable($VIMRUNTIME . "/macros/matchit.vim")
 endif
 "}}}
 " Default Settings"{{{
-set bs=2		" allow backspacing over everything in insert mode
-set ai			" always set autoindenting on
-" set viminfo='20,\"50	" read/write a .viminfo file, don't store more
+set bs=2    " allow backspacing over everything in insert mode
+set ai      " always set autoindenting on
+" set viminfo='20,\"50  " read/write a .viminfo file, don't store more
 set foldmethod=indent
 "}}}
 " Special Settings"{{{
 set modeline
-set autochdir	" Automatically change to the current directory
-set wildignorecase	" case-insensitive filename completion
+set autochdir  " Automatically change to the current directory
+set wildignorecase  " case-insensitive filename completion
 
 " Crontabs must be edited in place
 au BufRead /tmp/crontab* :set backupcopy=yes
@@ -45,7 +45,7 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 " Backup Dirs"{{{
 set backupdir=~/tmp,.,/var/tmp/vi.recover,/tmp
 set directory=~/tmp,/var/tmp/vi.recover,/tmp,.
-set backup		" keep a backup file
+set backup    " keep a backup file
 set showmatch " show another brace when input a brace
 "}}}
 " Set vimfile folder path{{{
@@ -89,8 +89,8 @@ LuciusDark
 " LuciusLightLowContrast
 let g:lucius_use_bold = 1
 
-" colorscheme github		" this one is good too!!
-" colorscheme notepad-plus-plus		" the background is strange
+" colorscheme github    " this one is good too!!
+" colorscheme notepad-plus-plus    " the background is strange
 " highlight CursorLine ctermbg=189
 "}}}
 " Length of Tab{{{
@@ -192,33 +192,33 @@ au CursorHold,BufWinEnter ?* call HasFolds()
 " imap Jk <Esc>
 " imap jK <Esc>
 " imap JK <Esc>
-				" by the way, it can be typed faster than jj.
+        " by the way, it can be typed faster than jj.
 "}}}
 " FX keys"{{{
 nmap <F2> <ESC>:tabe 
-if has('win32') || has ('win64')	" if in windows
-	let g:netrw_cygwin = 0
-	" let g:netrw_ssh_cmd  = '"C:\Program Files\PuTTY\plink.exe" -batch -T -ssh'
-	" let g:netrw_scp_cmd  = '"C:\Program Files\PuTTY\pscp.exe"  -batch -q -scp'
-	" let g:netrw_sftp_cmd = '"C:\Program Files\PuTTY\pscp.exe"  -batch -q -sftp'
-	let g:netrw_ssh_cmd  = 'plink -batch -T -ssh'
-	let g:netrw_scp_cmd  = 'pscp -batch -q -scp'
-	let g:netrw_sftp_cmd = 'pscp -batch -q -sftp'
+if has('win32') || has ('win64')  " if in windows
+  let g:netrw_cygwin = 0
+  " let g:netrw_ssh_cmd  = '"C:\Program Files\PuTTY\plink.exe" -batch -T -ssh'
+  " let g:netrw_scp_cmd  = '"C:\Program Files\PuTTY\pscp.exe"  -batch -q -scp'
+  " let g:netrw_sftp_cmd = '"C:\Program Files\PuTTY\pscp.exe"  -batch -q -sftp'
+  let g:netrw_ssh_cmd  = 'plink -batch -T -ssh'
+  let g:netrw_scp_cmd  = 'pscp -batch -q -scp'
+  let g:netrw_sftp_cmd = 'pscp -batch -q -sftp'
 endif
 " nmap <F3> <ESC>:tabe scp://b04902053@linux9.csie.ntu.edu.tw:22/
 " nmap <F3> <ESC>:OpenSession 
-nmap <F4> <ESC>:set syntax=
-" nmap <silent> <F5> :NERDTree<CR>	"NOTE: this is defined in /Plugin/Tool
-nmap <F6> <ESC>:vs 
-nmap <F7> <ESC>:!xelatex.exe %:p<CR><CR>
+" nmap <F4> <ESC>:set syntax=
+" nmap <silent> <F5> :NERDTree<CR>  "NOTE: this is defined in /Plugin/Tool
+" nmap <F6> <ESC>:vs 
+" nmap <F7> <ESC>:!xelatex.exe %:p<CR><CR>
 " map <F7> :set hls!<BAR>set hls?<CR>
-	" to toggle highlight or not on searched words
-if has('win32') || has ('win64')	" if in windows
-	nmap <silent> <F8> <ESC>:!start explorer.exe %:p:h<CR><CR>
-	nmap <silent> <F9> <ESC>:!start powershell.exe<CR><CR>
-	nmap <silent> <F10> <ESC>:!start git-bash.exe --cd="%:p:h"<CR><CR>
-	" nmap <silent> <F10> <ESC>:!start bash.exe<CR>
-	nmap <silent> <F12> <ESC>:!start /B electron-forge start<CR>
+  " to toggle highlight or not on searched words
+if has('win32') || has ('win64')  " if in windows
+  nmap <silent> <F8> <ESC>:!start explorer.exe %:p:h<CR><CR>
+  nmap <silent> <F9> <ESC>:!start powershell.exe<CR><CR>
+  nmap <silent> <F10> <ESC>:!start git-bash.exe --cd="%:p:h"<CR><CR>
+  " nmap <silent> <F10> <ESC>:!start bash.exe<CR>
+  " nmap <silent> <F12> <ESC>:!start /B electron-forge start<CR>
 endif
 "}}}
 " about TABs"{{{
@@ -274,8 +274,8 @@ nmap <silent> gL :wincmd L<CR>
 " beautify JSON / XML"{{{
 com! FormatJSON %!python -m json.tool
 com! FormatXML  %!xmllint-1.0.exe "%" --format
-	" this command required xmllint-1.0.exe
-	" which can be downloaded from here: https://code.google.com/archive/p/xmllint/downloads
+  " this command required xmllint-1.0.exe
+  " which can be downloaded from here: https://code.google.com/archive/p/xmllint/downloads
 "}}}
 "}}}
 
@@ -345,11 +345,11 @@ let g:session_autosave='no'
 " JavaScript Beautifyer"{{{
 " Plugin 'pangloss/vim-javascript'
 " Plugin 'maksimr/vim-jsbeautify'
-" " autocmd FileType javascript	noremap <buffer> <c-f> :call JsBeautify()<cr>
-" " autocmd FileType json		noremap <buffer> <c-f> :call JsonBeautify()<cr>
-" " autocmd FileType jsx		noremap <buffer> <c-f> :call JsxBeautify()<cr>
-" " autocmd FileType html		noremap <buffer> <c-f> :call HtmlBeautify()<cr>
-" " autocmd FileType css		noremap <buffer> <c-f> :call CSSBeautify()<cr>
+" " autocmd FileType javascript  noremap <buffer> <c-f> :call JsBeautify()<cr>
+" " autocmd FileType json    noremap <buffer> <c-f> :call JsonBeautify()<cr>
+" " autocmd FileType jsx    noremap <buffer> <c-f> :call JsxBeautify()<cr>
+" " autocmd FileType html    noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" " autocmd FileType css    noremap <buffer> <c-f> :call CSSBeautify()<cr>
 "}}}
 " git"{{{
 Plug 'airblade/vim-gitgutter'
@@ -366,7 +366,7 @@ Plug 'mattn/emmet-vim'
 Plug 'elzr/vim-json'
 "}}}
 " YCM"{{{
-" if has('win32') || has ('win64')	" if in windows gvim
+" if has('win32') || has ('win64')  " if in windows gvim
 " Plug 'Valloric/YouCompleteMe'
 " let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 " endif
@@ -405,13 +405,13 @@ call plug#end()
 
 if has('gui_running') "{{{
   " Hide Menu"{{{
-  set guioptions-=m	" menu bar
-  set guioptions-=T	" icons bar
-  " set guioptions-=r	" right bar
-  " set guioptions-=L	" left bar
-  " nnoremap	<C-1>	:if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
-  " nnoremap	<C-2>	:if &go=~#'T'<Bar>set go-=T<Bar>else<Bar>set go+=T<Bar>endif<CR>
-  " nnoremap	<C-3>	:if &go=~#'r'<Bar>set go-=r<Bar>else<Bar>set go+=r<Bar>endif<CR>
+  set guioptions-=m  " menu bar
+  set guioptions-=T  " icons bar
+  " set guioptions-=r  " right bar
+  " set guioptions-=L  " left bar
+  " nnoremap  <C-1>  :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
+  " nnoremap  <C-2>  :if &go=~#'T'<Bar>set go-=T<Bar>else<Bar>set go+=T<Bar>endif<CR>
+  " nnoremap  <C-3>  :if &go=~#'r'<Bar>set go-=r<Bar>else<Bar>set go+=r<Bar>endif<CR>
   "}}}
   " Toggle Menu Bar"{{{
   nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
@@ -419,37 +419,37 @@ if has('gui_running') "{{{
   nnoremap <C-F3> :if &go=~#'r'<Bar>set go-=r<Bar>else<Bar>set go+=r<Bar>endif<CR>
   "}}}
   " Set GVim default height & width"{{{
-  if has('win32') || has ('win64')	" if in windows
+  if has('win32') || has ('win64')  " if in windows
     set lines=24 columns=80
   endif
   "}}}
   " GVim font"{{{
-  if has('win32') || has ('win64')	" if in windows
+  if has('win32') || has ('win64')  " if in windows
     " set t_Co=256
     set guifont=Powerline_Consolas:h12
     " set guifont=Consolas:h12
     " set linespace=8
     " let g:airline_powerline_fonts = 1
-  else	" if in Ubuntu
+  else  " if in Ubuntu
     set guifont=Ubuntu\ Mono\ 13
     " let g:airline_powerline_fonts = 1
   endif
   "}}}
   " Let Gvim Control 輸入法{{{
-  if has('win32') || has ('win64')	" if in windows
+  if has('win32') || has ('win64')  " if in windows
     set imactivatekey=C-space
     inoremap <ESC> <ESC>:set iminsert=0<CR>
   endif
   "}}}
   " Set Language to utf-8{{{
-  if has('win32') || has ('win64')	" if in windows
+  if has('win32') || has ('win64')  " if in windows
     let $LANG="zh_TW.UTF-8"
     set langmenu=zh_tw.utf-8
     set encoding=utf8
   endif
   "}}}
   "reload menu with UTF-8 encoding{{{
-  if has('win32') || has ('win64')	" if in windows
+  if has('win32') || has ('win64')  " if in windows
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
   endif
