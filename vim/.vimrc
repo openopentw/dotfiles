@@ -1,7 +1,6 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" author: YJC (openopentw)
-" description: my default vimrc setting on ubuntu
-"""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""
+" author: YJC (openopentw) "
+""""""""""""""""""""""""""""
 
 " General Settings"{{{
 " If no screen, use color term{{{
@@ -187,6 +186,15 @@ au CursorHold,BufWinEnter ?* call HasFolds()
 "}}}
 
 " Hotkeys"{{{
+" copy & paste to system{{{
+if has('gui_running')
+  if has('win32') || has ('win64')
+    set clipboard=unnamed
+  else
+    set clipboard=unnamedplus
+  endif
+endif
+"}}}
 " ESC"{{{
 " imap jk <Esc>
 " imap Jk <Esc>
@@ -207,16 +215,16 @@ if has('win32') || has ('win64')  " if in windows
 endif
 " nmap <F3> <ESC>:tabe scp://b04902053@linux9.csie.ntu.edu.tw:22/
 " nmap <F3> <ESC>:OpenSession 
-" nmap <F4> <ESC>:set syntax=
+nmap <F4> <ESC>:set syntax=
 " nmap <silent> <F5> :NERDTree<CR>  "NOTE: this is defined in /Plugin/Tool
 " nmap <F6> <ESC>:vs 
 " nmap <F7> <ESC>:!xelatex.exe %:p<CR><CR>
 " map <F7> :set hls!<BAR>set hls?<CR>
   " to toggle highlight or not on searched words
 if has('win32') || has ('win64')  " if in windows
-  nmap <silent> <F8> <ESC>:!start explorer.exe %:p:h<CR><CR>
-  nmap <silent> <F9> <ESC>:!start powershell.exe<CR><CR>
-  nmap <silent> <F10> <ESC>:!start git-bash.exe --cd="%:p:h"<CR><CR>
+  nmap <silent> <F8> <ESC>:!start explorer.exe %:p:h<CR>
+  nmap <silent> <F9> <ESC>:!start powershell.exe<CR>
+  nmap <silent> <F10> <ESC>:!start git-bash.exe --cd="%:p:h"<CR>
   " nmap <silent> <F10> <ESC>:!start bash.exe<CR>
   " nmap <silent> <F12> <ESC>:!start /B electron-forge start<CR>
 endif
@@ -296,14 +304,6 @@ Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme='lucius'
 let g:airline_powerline_fonts = 1
 "}}}
-" TODO: check if it is useful"{{{
-" Plug 'captbaritone/better-indent-support-for-php-with-html'
-"}}}
-" goyo{{{
-Plug 'junegunn/goyo.vim'
-" Plug 'junegunn/limelight.vim'
-" Plug 'junegunn/seoul256.vim'
-"}}}
 " tmux statusline generator with airline theme"{{{
 Plug 'edkolev/tmuxline.vim'
 " for tmuxline + vim-airline integration
@@ -311,20 +311,24 @@ let g:airline#extensions#tmuxline#enabled = 1
 " start tmuxline even without vim running
 let airline#extensions#tmuxline#snapshot_file = "~/.tmux-status.conf"
 "}}}
+" goyo{{{
+Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/seoul256.vim'
 "}}}
-" Tools "{{{
+" JSON"{{{
+Plug 'elzr/vim-json'
+"}}}
+"}}}
+" Tools for Editor "{{{
 " automatically adjusts 'shiftwidth' and 'expandtab' heuristically based on the current file{{{
 Plug 'tpope/vim-sleuth'
-"}}}
-" file tree{{{
-Plug 'scrooloose/nerdtree'
-nnoremap <silent> <F5> :NERDTree<CR>
 "}}}
 " Add comments by `gcc`{{{
 Plug 'tpope/vim-commentary'
 "}}}
-"" boshiamy{{{
-" Plug 'pi314/boshiamy.vim'
+"" insert or delete brackets, parens, quotes in pair {{{
+"Plug 'jiangmiao/auto-pairs'
 ""}}}
 " vim-easy-align{{{
 " quick start guide: https://github.com/junegunn/vim-easy-align
@@ -334,6 +338,61 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 "}}}
+" YCM"{{{
+if has('win32') || has ('win64')  " if in windows gvim
+  Plug 'Valloric/YouCompleteMe'
+  let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+endif
+"}}}
+" syntastic + eslint{{{
+Plug 'scrooloose/syntastic'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['standard']
+let g:syntastic_javascript_standard_generic = 1
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint'
+"}}}
+"" boshiamy{{{
+" Plug 'pi314/boshiamy.vim'
+""}}}
+" JavaScript Beautifyer"{{{
+" Plugin 'maksimr/vim-jsbeautify'
+" " autocmd FileType javascript  noremap <buffer> <c-f> :call JsBeautify()<cr>
+" " autocmd FileType json    noremap <buffer> <c-f> :call JsonBeautify()<cr>
+" " autocmd FileType jsx    noremap <buffer> <c-f> :call JsxBeautify()<cr>
+" " autocmd FileType html    noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" " autocmd FileType css    noremap <buffer> <c-f> :call CSSBeautify()<cr>
+"}}}
+" HTML"{{{
+" Usage: https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
+" e.g.: type `div#login` then type `<c-y>,`
+Plug 'mattn/emmet-vim'
+let g:user_emmet_settings = {
+\  'php' : {
+\    'extends' : 'html',
+\    'filters' : 'c',
+\  },
+\  'xml' : {
+\    'extends' : 'html',
+\  },
+\  'haml' : {
+\    'extends' : 'html',
+\  },
+\}
+"}}}
+"}}}
+" Tools (Others) "{{{
+" file tree{{{
+Plug 'scrooloose/nerdtree'
+map <silent> <F5> :NERDTreeToggle<CR>
+" autocmd BufWinEnter * silent NERDTreeMirror
+"}}}
 " :rename[!] {newname}"{{{
 Plug 'danro/rename.vim'
 "}}}
@@ -342,34 +401,8 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 let g:session_autosave='no'
 "}}}
-" JavaScript Beautifyer"{{{
-" Plugin 'pangloss/vim-javascript'
-" Plugin 'maksimr/vim-jsbeautify'
-" " autocmd FileType javascript  noremap <buffer> <c-f> :call JsBeautify()<cr>
-" " autocmd FileType json    noremap <buffer> <c-f> :call JsonBeautify()<cr>
-" " autocmd FileType jsx    noremap <buffer> <c-f> :call JsxBeautify()<cr>
-" " autocmd FileType html    noremap <buffer> <c-f> :call HtmlBeautify()<cr>
-" " autocmd FileType css    noremap <buffer> <c-f> :call CSSBeautify()<cr>
-"}}}
 " git"{{{
 Plug 'airblade/vim-gitgutter'
-"}}}
-" HTML"{{{
-" Usage: https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
-" e.g.: type `div#login` then type `<c-y>,`
-Plug 'mattn/emmet-vim'
-
-" add quotes outside a word, e.g.:  Hello world!  ->  <q>Hello world!</q>
-" Plug 'tpope/vim-surround'
-"}}}
-" JSON"{{{
-Plug 'elzr/vim-json'
-"}}}
-" YCM"{{{
-" if has('win32') || has ('win64')  " if in windows gvim
-" Plug 'Valloric/YouCompleteMe'
-" let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-" endif
 "}}}
 " Latex"{{{
 Plug 'lervag/vimtex'
@@ -377,7 +410,7 @@ let g:tex_flavor='xelatex'
 " let g:Tex_CompileRule_pdf='xelatex --interaction=nonstopmode $*'
 let g:vimtex_view_general_viewer = 'C:\Program Files\Mozilla Firefox\Firefox.exe'
 "}}}
-" enable YouCompleteMe support"{{{
+" enable YouCompleteMe support (Latex) "{{{
 "if !exists('g:ycm_semantic_triggers')
 "  let g:ycm_semantic_triggers = {}
 "endif
@@ -385,6 +418,10 @@ let g:vimtex_view_general_viewer = 'C:\Program Files\Mozilla Firefox\Firefox.exe
 "}}}
 "}}}
 " syntax highlighting"{{{
+" js & react"{{{
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+"}}}
 " Stylus (.styl)"{{{
 Plug 'wavded/vim-stylus'
 "}}}
@@ -424,7 +461,8 @@ if has('gui_running') "{{{
   endif
   "}}}
   " GVim font"{{{
-  if has('win32') || has ('win64')  " if in windows
+  if has('win32') || has ('win64') || has ('mac')
+    " if in windows
     " set t_Co=256
     set guifont=Powerline_Consolas:h12
     " set guifont=Consolas:h12
