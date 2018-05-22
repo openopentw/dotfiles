@@ -183,6 +183,9 @@ endfunction
 "}}}
 au CursorHold,BufWinEnter ?* call HasFolds()
 "}}}
+"let opencl be highlighted as c
+au BufReadPost *.cl set syntax=opencl
+"
 "}}}
 
 " Hotkeys"{{{
@@ -434,6 +437,10 @@ Plug 'nikvdp/ejs-syntax'
 " Plugin 'suan/vim-instant-markdown'
 " Plugin 'godlygeek/tabular'
 " Plugin 'plasticboy/vim-markdown'
+"}}}
+" opencl"{{{
+" Plug 'vim-scripts/opencl.vim'
+Plug 'petRUShka/vim-opencl'
 "}}}
 "}}}
 " Initialize plugin system
