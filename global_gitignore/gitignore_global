@@ -5,6 +5,10 @@
 *.o
 *.out
 
+# python
+*.pyc
+__pycache__
+
 # java class
 *.class
 
