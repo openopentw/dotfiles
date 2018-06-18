@@ -247,8 +247,8 @@ nmap g0 :tabn 10<CR>
 " nmap gc :tabnew<CR>
 nmap gn :tabn<CR>
 nmap gp :tabp<CR>
-nmap g= :tabm +<CR>
-nmap g- :tabm -<CR>
+nmap g= :tabm +1<CR>
+nmap g- :tabm -1<CR>
 "}}}
 " TODO: change the 'gJ' hotkey
 " move between / move SPLITs"{{{
