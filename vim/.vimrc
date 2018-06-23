@@ -114,6 +114,12 @@ syntax on
 " autocmd BufNewFile,BufReadPost *.css set filetype=css
 " autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 "}}}
+" Wrap or Not{{{
+autocmd Filetype txt set wrap
+autocmd Filetype md set wrap
+autocmd Filetype pug set wrap
+autocmd Filetype tex set wrap
+"}}}
 " showing Tabs(\t)"{{{
 " set list " show all special words
 " set listchars=tab:\|\ " show tabs as '|   '
@@ -264,24 +270,6 @@ nmap <silent> gJ :wincmd J<CR>
 nmap <silent> gH :wincmd H<CR>
 nmap <silent> gL :wincmd L<CR>
 "}}}
-" add / remove COMMENTS in VISUAL mode"{{{
-" NOTE: use 'tpope/vim-commentary' instead
-" " (that is, before typing command to add comments, you should select the words)
-" " ADD
-" vmap // :s:^\(\s*\):\1// :<CR>
-" vmap 33 :s:^\(\s*\):\1# :<CR>
-" vmap "" :s:^\(\s*\):\1" :<CR>
-" vmap -- :s:^\(\s*\):\1--:<CR>
-" vmap /8 :s:^\(\s*\)\(.*\)$:\1/* \2 */:<CR>
-" vmap h/ :s:^\(\s*\)\(.*\)$:\1<!-- \2 -->:<CR>
-" " REMOVE
-" vmap /d :s:^\(\s*\)// :\1:<CR>
-" vmap 3d :s:^\(\s*\)# :\1:<CR>
-" vmap "d :s:^\(\s*\)" :\1:<CR>
-" vmap -d :s:^\(\s*\)--:\1:<CR>
-" vmap 8d :s:^\(\s*\)\/\* \(.*\) \*\/$:\1\2:<CR>
-" vmap hd :s:^\(\s*\)<!-- \(.*\) -->$:\1\2:<CR>
-"}}}
 " beautify JSON / XML"{{{
 com! FormatJSON %!python -m json.tool
 com! FormatXML  %!xmllint-1.0.exe "%" --format
@@ -357,6 +345,7 @@ nmap ga <Plug>(EasyAlign)
 if has('win32') || has ('win64')  " if in windows gvim
   Plug 'Valloric/YouCompleteMe'
   let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+  let g:ycm_path_to_python_interpreter = 'c:\Users\YJC\AppData\Local\Programs\Python\Python36\python.exe'
 endif
 "}}}
 " syntastic + eslint{{{
@@ -450,8 +439,10 @@ Plug 'nikvdp/ejs-syntax'
 " Plugin 'godlygeek/tabular'
 " Plugin 'plasticboy/vim-markdown'
 "}}}
+" pug{{{
+Plug 'digitaltoad/vim-pug'
+"}}}
 " opencl"{{{
-" Plug 'vim-scripts/opencl.vim'
 Plug 'petRUShka/vim-opencl'
 "}}}
 "}}}
@@ -476,7 +467,7 @@ if has('gui_running') "{{{
   "}}}
   " Set GVim default height & width"{{{
   if has('win32') || has ('win64')  " if in windows
-    set lines=24 columns=80
+    set lines=36 columns=80
   endif
   "}}}
   " GVim font"{{{
