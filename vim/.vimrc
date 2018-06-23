@@ -189,9 +189,9 @@ endfunction
 "}}}
 au CursorHold,BufWinEnter ?* call HasFolds()
 "}}}
-"let opencl be highlighted as c
+" let opencl be highlighted as c{{{
 au BufReadPost *.cl set syntax=opencl
-"
+"}}}
 "}}}
 
 " Hotkeys"{{{
@@ -329,6 +329,7 @@ Plug 'tpope/vim-sleuth'
 "}}}
 " Add comments by `gcc`{{{
 Plug 'tpope/vim-commentary'
+autocmd FileType matlab setlocal commentstring=%\ %s
 "}}}
 "" insert or delete brackets, parens, quotes in pair {{{
 "Plug 'jiangmiao/auto-pairs'
@@ -348,19 +349,25 @@ if has('win32') || has ('win64')  " if in windows gvim
   let g:ycm_path_to_python_interpreter = 'c:\Users\YJC\AppData\Local\Programs\Python\Python36\python.exe'
 endif
 "}}}
-" syntastic + eslint{{{
-Plug 'scrooloose/syntastic'
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['standard']
-let g:syntastic_javascript_standard_generic = 1
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint'
+" " syntastic + eslint{{{
+" Plug 'scrooloose/syntastic'
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_javascript_checkers = ['standard']
+" let g:syntastic_javascript_standard_generic = 1
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_javascript_eslint_exec = 'eslint'
+""}}}
+" ale{{{
+Plug 'w0rp/ale'
+let g:ale_open_list = 1
+let g:ale_list_window_size = 5
+let g:airline#extensions#ale#enabled = 1
 "}}}
 "" boshiamy{{{
 " Plug 'pi314/boshiamy.vim'
@@ -445,6 +452,9 @@ Plug 'digitaltoad/vim-pug'
 " opencl"{{{
 Plug 'petRUShka/vim-opencl'
 "}}}
+" Matlab{{{
+Plug 'lazywei/vim-matlab'
+"}}}
 "}}}
 " Initialize plugin system
 call plug#end()
@@ -467,7 +477,10 @@ if has('gui_running') "{{{
   "}}}
   " Set GVim default height & width"{{{
   if has('win32') || has ('win64')  " if in windows
-    set lines=36 columns=80
+    set lines=36
+    " set columns=80
+    au BufRead * let &numberwidth = float2nr(log10(line("$"))) + 2
+              \| let &columns = &numberwidth + 81
   endif
   "}}}
   " GVim font"{{{
