@@ -4,7 +4,7 @@
 
 " General Settings"{{{
 " If no screen, use color term{{{
-if ($TERM == "vt100")
+if ($TERM ==# 'vt100')
   " xterm-color / screen
   set t_Co=8
   set t_AF=[1;3%p1%dm
@@ -12,17 +12,17 @@ if ($TERM == "vt100")
 endif
 "}}}
 " Load Default Vim Settings{{{
-if filereadable($VIMRUNTIME . "/vimrc_example.vim")
+if filereadable($VIMRUNTIME . '/vimrc_example.vim')
  so $VIMRUNTIME/vimrc_example.vim
 endif
 
-if filereadable($VIMRUNTIME . "/macros/matchit.vim")
+if filereadable($VIMRUNTIME . '/macros/matchit.vim')
  so $VIMRUNTIME/macros/matchit.vim
 endif
 "}}}
 " Default Settings"{{{
-set bs=2    " allow backspacing over everything in insert mode
-set ai      " always set autoindenting on
+set backspace=2 " allow backspacing over everything in insert mode
+set autoindent  " always set autoindenting on
 " set viminfo='20,\"50  " read/write a .viminfo file, don't store more
 set foldmethod=indent
 "}}}
@@ -32,11 +32,13 @@ set autochdir  " Automatically change to the current directory
 set wildignorecase  " case-insensitive filename completion
 
 " Crontabs must be edited in place
-au BufRead /tmp/crontab* :set backupcopy=yes
+augroup crontab
+  au BufRead /tmp/crontab* :set backupcopy=yes
+augroup END
 "}}}
 " File Encoding"{{{
 set encoding=utf-8
-set encoding=utf-8
+scriptencoding utf-8
 set langmenu=zh_TW.UTF-8
 language message zh_TW.UTF-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
@@ -58,7 +60,7 @@ endif
 " General Settings"{{{
 set laststatus=2
 " show line number
-set nu
+set number
 " don't wrap
 set nowrap
 " show the same line
@@ -73,19 +75,19 @@ set breakindent
 "}}}
 " ColorSchemes"{{{
 " NOTE: default is white now
-" set background=light
-set background=dark
+set background=light
+" set background=dark
 
 colorscheme lucius
-" LuciusWhite
-LuciusDark
+LuciusLight
+" LuciusLightLowContrast
+" LuciusDark
 " LuciusDarkHighContrast
 " LuciusDarkLowContrast
 " LuciusBlack
 " LuciusBlackLowContrast
+" LuciusWhite
 " LuciusWhiteLowContrast
-" LuciusLight
-" LuciusLightLowContrast
 let g:lucius_use_bold = 1
 
 " colorscheme github    " this one is good too!!
@@ -129,8 +131,10 @@ autocmd Filetype tex set wrap
 "}}}
 " Highlight unwanted spaces in end of line"{{{
 highlight ExtraWhitespace ctermbg=darkred guibg=darkcyan
-autocmd BufEnter * if &ft != 'help' | match ExtraWhitespace /\s\+$/ | endif
-autocmd BufEnter * if &ft == 'help' | match none /\s\+$/ | endif
+augroup ExtraWhitespace
+  autocmd BufEnter * if &ft != 'help' | match ExtraWhitespace /\s\+$/ | endif
+  autocmd BufEnter * if &ft == 'help' | match none /\s\+$/ | endif
+augroup END
 "}}}
 " Highlight Operators: '[{(><='"{{{
 au BufRead,BufNewFile * syn match Braces display '[{}()\[\]]'
@@ -143,54 +147,59 @@ au BufRead,BufNewFile * syn match biOperator "\v\~\="
 au BufRead,BufNewFile * syn match biOperator "="
 "}}}
 " show foldcolumn when there are folds in a file{{{
-function HasFolds() "{{{
-    "Attempt to move between folds, checking line numbers to see if it worked.
-    "If it did, there are folds.
+" function HasFolds() {{{
+function HasFolds()
+  "Attempt to move between folds, checking line numbers to see if it worked.
+  "If it did, there are folds.
 
-    function! HasFoldsInner()
-        let origline=line('.')
-        :norm zk
-        if origline==line('.')
-            :norm zj
-            if origline==line('.')
-                return 0
-            else
-                return 1
-            endif
-        else
-            return 1
-        endif
+  "{{{ function HasFoldsInner
+  function! HasFoldsInner()
+    let l:origline = line('.')
+    :normal zk
+    if l:origline == line('.')
+      :normal zj
+      if l:origline == line('.')
         return 0
-    endfunction
-
-    let l:winview=winsaveview() "save window and cursor position
-    let foldsexist=HasFoldsInner()
-    if foldsexist
-        set foldcolumn=1
+      else
+        return 1
+      endif
     else
-        "Move to the end of the current fold and check again in case the
-        "cursor was on the sole fold in the file when we checked
-        if line('.')!=1
-            :norm [z
-            :norm k
-        else
-            :norm ]z
-            :norm j
-        endif
-        let foldsexist=HasFoldsInner()
-        if foldsexist
-            set foldcolumn=1
-        else
-            set foldcolumn=0
-        endif
-    end
-    call winrestview(l:winview) "restore window/cursor position
+      return 1
+    endif
+    return 0
+  endfunction
+  " }}}
+
+  let l:winview = winsaveview() "save window and cursor position
+  let l:foldsexist = HasFoldsInner()
+  if l:foldsexist
+    set foldcolumn=1
+  else
+    "Move to the end of the current fold and check again in case the
+    "cursor was on the sole fold in the file when we checked
+    if line('.')!=1
+      :normal [z
+      :normal k
+    else
+      :normal ]z
+      :normal j
+    endif
+    let l:foldsexist=HasFoldsInner()
+    if l:foldsexist
+      set foldcolumn=1
+    else
+      set foldcolumn=0
+    endif
+  end
+  call winrestview(l:winview) "restore window/cursor position
 endfunction
 "}}}
 au CursorHold,BufWinEnter ?* call HasFolds()
 "}}}
 " let opencl be highlighted as c{{{
-au BufReadPost *.cl set syntax=opencl
+augroup SetClSyntax
+  au BufReadPost *.cl set syntax=opencl
+augroup END
 "}}}
 "}}}
 
@@ -288,6 +297,7 @@ call plug#begin('~/.vim/plugged')
 " vim-airline{{{
 Plug 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_min_count = 2
 
 Plug 'vim-airline/vim-airline-themes'
 " let g:airline_theme='sol'
@@ -300,7 +310,7 @@ Plug 'edkolev/tmuxline.vim'
 " for tmuxline + vim-airline integration
 let g:airline#extensions#tmuxline#enabled = 1
 " start tmuxline even without vim running
-let airline#extensions#tmuxline#snapshot_file = "~/.tmux-status.conf"
+let g:airline#extensions#tmuxline#snapshot_file = '~/.tmux-status.conf'
 let g:tmuxline_preset = {
       \'a'    : '#S',
       \'win'  : ['#I', '#W'],
@@ -329,7 +339,9 @@ Plug 'tpope/vim-sleuth'
 "}}}
 " Add comments by `gcc`{{{
 Plug 'tpope/vim-commentary'
-autocmd FileType matlab setlocal commentstring=%\ %s
+augroup AdditionalCommentStyle
+  autocmd FileType matlab setlocal commentstring=%\ %s
+augroup END
 "}}}
 "" insert or delete brackets, parens, quotes in pair {{{
 "Plug 'jiangmiao/auto-pairs'
@@ -342,10 +354,11 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 "}}}
-" YCM"{{{
+" YouCompleteMe"{{{
 if has('win32') || has ('win64')  " if in windows gvim
   Plug 'Valloric/YouCompleteMe'
-  let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+  " let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+  let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
   let g:ycm_path_to_python_interpreter = 'c:\Users\YJC\AppData\Local\Programs\Python\Python36\python.exe'
 endif
 "}}}
@@ -368,6 +381,20 @@ Plug 'w0rp/ale'
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
 let g:airline#extensions#ale#enabled = 1
+" ale signs{{{
+let g:ale_sign_error = '●' " Less aggressive than the default '>>'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+"}}}
+" check JSX files with both stylelint and eslint{{{
+augroup FiletypeGroup
+  autocmd!
+  au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+augroup END
+" In ~/.vim/ftplugin/jsx.vim, or somewhere similar.
+let b:ale_linters = ['stylelint', 'eslint']
+let b:ale_linter_aliases = ['css']
+"}}}
 "}}}
 "" boshiamy{{{
 " Plug 'pi314/boshiamy.vim'
@@ -455,6 +482,9 @@ Plug 'petRUShka/vim-opencl'
 " Matlab{{{
 Plug 'lazywei/vim-matlab'
 "}}}
+" react jsx{{{
+Plug 'mxw/vim-jsx'
+"}}}
 "}}}
 " Initialize plugin system
 call plug#end()
@@ -478,9 +508,7 @@ if has('gui_running') "{{{
   " Set GVim default height & width"{{{
   if has('win32') || has ('win64')  " if in windows
     set lines=36
-    " set columns=80
-    au BufRead * let &numberwidth = float2nr(log10(line("$"))) + 2
-              \| let &columns = &numberwidth + 81
+    set columns=85
   endif
   "}}}
   " GVim font"{{{
@@ -504,9 +532,8 @@ if has('gui_running') "{{{
   "}}}
   " Set Language to utf-8{{{
   if has('win32') || has ('win64')  " if in windows
-    let $LANG="zh_TW.UTF-8"
+    let $LANG='zh_TW.UTF-8'
     set langmenu=zh_tw.utf-8
-    set encoding=utf8
   endif
   "}}}
   "reload menu with UTF-8 encoding{{{
