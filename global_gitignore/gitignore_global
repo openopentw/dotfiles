@@ -12,6 +12,9 @@ __pycache__
 # java class
 *.class
 
+# matlab
+*.asv
+
 ## node modules
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
