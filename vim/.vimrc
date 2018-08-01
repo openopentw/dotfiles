@@ -60,7 +60,7 @@ endif
 " General Settings"{{{
 set laststatus=2
 " show line number
-set number
+" set number
 " don't wrap
 set nowrap
 " show the same line
@@ -242,6 +242,7 @@ nmap <F4> <ESC>:set syntax=
 if has('win32') || has ('win64')  " if in windows
   nmap <silent> <F8> <ESC>:!start explorer.exe %:p:h<CR>
   nmap <silent> <F9> <ESC>:!start powershell.exe<CR>
+  " nmap <silent> <F9> <ESC>:!start cmder.exe<CR>
   nmap <silent> <F10> <ESC>:!start git-bash.exe --cd="%:p:h"<CR>
   " nmap <silent> <F10> <ESC>:!start bash.exe<CR>
   " nmap <silent> <F12> <ESC>:!start /B electron-forge start<CR>
@@ -280,8 +281,8 @@ nmap <silent> gH :wincmd H<CR>
 nmap <silent> gL :wincmd L<CR>
 "}}}
 " beautify JSON / XML"{{{
-com! FormatJSON %!python -m json.tool
-com! FormatXML  %!xmllint-1.0.exe "%" --format
+command! FormatJSON %!python -m json.tool
+command! FormatXML  %!xmllint-1.0.exe "%" --format
   " this command required xmllint-1.0.exe
   " which can be downloaded from here: https://code.google.com/archive/p/xmllint/downloads
 "}}}
@@ -297,6 +298,7 @@ call plug#begin('~/.vim/plugged')
 " vim-airline{{{
 Plug 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#buffer_min_count = 2
 
 Plug 'vim-airline/vim-airline-themes'
@@ -381,10 +383,14 @@ Plug 'w0rp/ale'
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
 let g:airline#extensions#ale#enabled = 1
+let g:ale_javascript_eslint_executable = 'eslint'
+let g:ale_linters = {
+\  'javascript': ['eslint', 'flow'],
+\}
+let g:ale_python_pylint_options = '--generated-members=_body.*'
 " ale signs{{{
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
 "}}}
 " check JSX files with both stylelint and eslint{{{
 augroup FiletypeGroup
