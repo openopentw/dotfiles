@@ -242,10 +242,13 @@ nmap <F4> <ESC>:set syntax=
 if has('win32') || has ('win64')  " if in windows
   nmap <silent> <F8> <ESC>:!start explorer.exe %:p:h<CR>
   nmap <silent> <F9> <ESC>:!start powershell.exe<CR>
-  " nmap <silent> <F9> <ESC>:!start cmder.exe<CR>
   nmap <silent> <F10> <ESC>:!start git-bash.exe --cd="%:p:h"<CR>
   " nmap <silent> <F10> <ESC>:!start bash.exe<CR>
   " nmap <silent> <F12> <ESC>:!start /B electron-forge start<CR>
+else
+  nmap <silent> <F8> <ESC>:!nautilus .&<CR>
+  nmap <silent> <F9> <ESC>:!gnome-terminal .&<CR>
+  nmap <silent> <F10> <ESC>:!gnome-terminal .&<CR>
 endif
 "}}}
 " about TABs"{{{
@@ -526,7 +529,8 @@ if has('gui_running') "{{{
     " set linespace=8
     " let g:airline_powerline_fonts = 1
   else  " if in Ubuntu
-    set guifont=Ubuntu\ Mono\ 13
+    " set guifont=Ubuntu\ Mono\ 13
+    set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 14
     " let g:airline_powerline_fonts = 1
   endif
   "}}}
