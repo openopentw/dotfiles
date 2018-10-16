@@ -1,5 +1,8 @@
-# vim temp file
+# vim
 .*.un~
+
+# tmux
+tmux-client-*.log
 
 # c / c++
 *.o
